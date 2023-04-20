@@ -6,7 +6,7 @@ const { PORT = 3001 } = process.env;
 
 const app = express();
 
-//connect to MongoDB server
+// connect to MongoDB server
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
   .then(() => console.log("Connected"))
@@ -14,7 +14,7 @@ mongoose
 
 app.use(express.json());
 
-//Add Middleware
+// Add Middleware
 app.use((req, res, next) => {
   req.user = {
     _id: "643f18dd19131b26d4ffbf42", // paste the _id of the test user created in the previous step

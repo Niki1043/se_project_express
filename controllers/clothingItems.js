@@ -1,4 +1,4 @@
-//get the models for clothingitems
+// get the models for clothingitems
 const Item = require("../models/clothingItem");
 const {
   INVALID_DATA_ERROR,
@@ -50,17 +50,15 @@ module.exports.deleteClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else {
-        if (err.name === "DocumentNotFoundError") {
-          res
-            .status(ID_NOT_FOUND)
-            .send({ message: "The id provided was not found" });
-        }
+      } else if (err.name === "DocumentNotFoundError") {
+        res
+          .status(ID_NOT_FOUND)
+          .send({ message: "The id provided was not found" });
       }
     });
 };
 
-//PUT /items/:itemId/likes — like an item
+// PUT /items/:itemId/likes — like an item
 module.exports.likeClothingItem = (req, res) => {
   Item.findByIdAndUpdate(
     req.params.itemId,
@@ -74,17 +72,15 @@ module.exports.likeClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else {
-        if (err.name === "DocumentNotFoundError") {
-          res
-            .status(ID_NOT_FOUND)
-            .send({ message: "The id provided was not found" });
-        }
+      } else if (err.name === "DocumentNotFoundError") {
+        res
+          .status(ID_NOT_FOUND)
+          .send({ message: "The id provided was not found" });
       }
     });
 };
 
-//DELETE /items/:itemId/likes — unlike an item
+// DELETE /items/:itemId/likes — unlike an item
 module.exports.dislikeClothingItem = (req, res) => {
   Item.findByIdAndUpdate(
     req.params.itemId,
@@ -98,12 +94,10 @@ module.exports.dislikeClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else {
-        if (err.name === "DocumentNotFoundError") {
-          res
-            .status(ID_NOT_FOUND)
-            .send({ message: "The id provided was not found" });
-        }
+      } else if (err.name === "DocumentNotFoundError") {
+        res
+          .status(ID_NOT_FOUND)
+          .send({ message: "The id provided was not found" });
       }
     });
 };
