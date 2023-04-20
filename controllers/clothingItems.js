@@ -21,10 +21,10 @@ module.exports.getClothingItems = (req, res) => {
           .status(NO_DOCUMENTS_FOUND.statusCode)
           .send({ message: NO_DOCUMENTS_FOUND.message });
       } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
-      res
-        .status(DEFAULT_ERROR)
-        .send({ message: "An error has occurred on the server" });
     });
 };
 
