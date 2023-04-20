@@ -16,11 +16,17 @@ module.exports.getUsers = (req, res) => {
       throw NO_DOCUMENTS_FOUND;
     })
     .then((users) => res.send(users))
-    .catch(() =>
+    .catch((err) => {
+      if (err.name === "NotFoundError") {
+        res
+          .status(NO_DOCUMENTS_FOUND.statusCode)
+          .send({ message: NO_DOCUMENTS_FOUND.message });
+      } else {
+      }
       res
         .status(DEFAULT_ERROR)
-        .send({ message: "An error has occurred on the server" })
-    );
+        .send({ message: "An error has occurred on the server" });
+    });
 };
 
 // GetUser Request - returns user by _id

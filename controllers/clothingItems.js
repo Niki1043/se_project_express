@@ -15,11 +15,17 @@ module.exports.getClothingItems = (req, res) => {
       throw NO_DOCUMENTS_FOUND;
     })
     .then((items) => res.send(items))
-    .catch(() =>
+    .catch((err) => {
+      if (err.name === "NotFoundError") {
+        res
+          .status(NO_DOCUMENTS_FOUND.statusCode)
+          .send({ message: NO_DOCUMENTS_FOUND.message });
+      } else {
+      }
       res
         .status(DEFAULT_ERROR)
-        .send({ message: "An error has occurred on the server" })
-    );
+        .send({ message: "An error has occurred on the server" });
+    });
 };
 
 // POST /items — creates a new item

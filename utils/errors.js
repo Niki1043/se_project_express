@@ -8,6 +8,7 @@ const DEFAULT_ERROR = 500;
 
 const NO_DOCUMENTS_FOUND = new Error("No documents found");
 NO_DOCUMENTS_FOUND.statusCode = DEFAULT_ERROR;
+NO_DOCUMENTS_FOUND.name = "NotFoundError";
 
 const NO_DATA_FOR_ID = new Error("Data for this id was not found");
 NO_DATA_FOR_ID.statusCode = ID_NOT_FOUND;
