@@ -50,7 +50,7 @@ module.exports.deleteClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else if (err.name === "DocumentNotFoundError") {
+      } else {
         res
           .status(ID_NOT_FOUND)
           .send({ message: "The id provided was not found" });
