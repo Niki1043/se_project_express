@@ -9,7 +9,7 @@ const {
   NO_DATA_FOR_ID,
 } = require("../utils/errors");
 
-//GetUsers Request - returns all users
+// GetUsers Request - returns all users
 module.exports.getUsers = (req, res) => {
   User.find({})
     .orFail(() => {

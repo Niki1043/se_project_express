@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-//clothingItem Schema
+// clothingItem Schema
 const clothingItemSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -35,5 +35,5 @@ const clothingItemSchema = new mongoose.Schema({
   about: String,
 });
 
-//Create model and export it
+// Create model and export it
 module.exports = mongoose.model("clothingItem", clothingItemSchema);

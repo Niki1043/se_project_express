@@ -1,5 +1,5 @@
-//add error status codes
-//invalid data passed to methods
+// add error status codes
+// invalid data passed to methods
 const INVALID_DATA_ERROR = 400;
 
 const ID_NOT_FOUND = 404;
