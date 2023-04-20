@@ -17,9 +17,10 @@ module.exports.getClothingItems = (req, res) => {
     .then((items) => res.send(items))
     .catch((err) => {
       if (err.name === "NotFoundError") {
-        res
-          .status(NO_DOCUMENTS_FOUND.statusCode)
-          .send({ message: NO_DOCUMENTS_FOUND.message });
+        console.log(err.name);
+        console.log(err.status);
+        console.log("------->>");
+        res.status(ID_NOT_FOUND).send({ message: "NotFound" });
       } else {
         res
           .status(DEFAULT_ERROR)
