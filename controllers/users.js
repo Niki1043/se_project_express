@@ -6,26 +6,16 @@ const {
   ID_NOT_FOUND,
   DEFAULT_ERROR,
   NO_DOCUMENTS_FOUND,
-  NO_DATA_FOR_ID,
 } = require("../utils/errors");
 
 // GetUsers Request - returns all users
 module.exports.getUsers = (req, res) => {
   User.find({})
-    .orFail(() => {
-      throw NO_DOCUMENTS_FOUND;
-    })
     .then((users) => res.send(users))
-    .catch((err) => {
-      if (err.name === "NotFoundError") {
-        res
-          .status(NO_DOCUMENTS_FOUND.statusCode)
-          .send({ message: NO_DOCUMENTS_FOUND.message });
-      } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
-      }
+    .catch(() => {
+      res
+        .status(DEFAULT_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -33,7 +23,7 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUser = (req, res) => {
   User.findById(req.params.id)
     .orFail(() => {
-      throw NO_DATA_FOR_ID;
+      throw NO_DOCUMENTS_FOUND;
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
@@ -41,10 +31,14 @@ module.exports.getUser = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else {
+      } else if (err.name === "NotFoundError") {
         res
           .status(ID_NOT_FOUND)
           .send({ message: "The id provided was not found" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -60,6 +54,10 @@ module.exports.createUser = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The data provided is invalid" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };

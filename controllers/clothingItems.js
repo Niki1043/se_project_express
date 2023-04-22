@@ -5,26 +5,16 @@ const {
   ID_NOT_FOUND,
   DEFAULT_ERROR,
   NO_DOCUMENTS_FOUND,
-  NO_DATA_FOR_ID,
 } = require("../utils/errors");
 
 // GET /items — returns all clothing items
 module.exports.getClothingItems = (req, res) => {
   Item.find({})
-    .orFail(() => {
-      throw NO_DOCUMENTS_FOUND;
-    })
     .then((items) => res.send(items))
-    .catch((err) => {
-      if (err.name === "NotFoundError") {
-        res
-          .status(NO_DOCUMENTS_FOUND.statusCode)
-          .send({ message: NO_DOCUMENTS_FOUND.message });
-      } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
-      }
+    .catch(() => {
+      res
+        .status(DEFAULT_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -40,6 +30,10 @@ module.exports.createClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The data provided is invalid" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -48,7 +42,7 @@ module.exports.createClothingItem = (req, res) => {
 module.exports.deleteClothingItem = (req, res) => {
   Item.findByIdAndDelete(req.params.itemId)
     .orFail(() => {
-      throw NO_DATA_FOR_ID;
+      throw NO_DOCUMENTS_FOUND;
     })
     .then((item) => res.send({ data: item }))
     .catch((err) => {
@@ -56,10 +50,14 @@ module.exports.deleteClothingItem = (req, res) => {
         res
           .status(INVALID_DATA_ERROR)
           .send({ message: "The id provided is invalid" });
-      } else {
+      } else if (err.name === "NotFoundError") {
         res
           .status(ID_NOT_FOUND)
           .send({ message: "The id provided was not found" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -82,6 +80,10 @@ module.exports.likeClothingItem = (req, res) => {
         res
           .status(ID_NOT_FOUND)
           .send({ message: "The id provided was not found" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -104,6 +106,10 @@ module.exports.dislikeClothingItem = (req, res) => {
         res
           .status(ID_NOT_FOUND)
           .send({ message: "The id provided was not found" });
+      } else {
+        res
+          .status(DEFAULT_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
