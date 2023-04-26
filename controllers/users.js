@@ -1,5 +1,7 @@
 // getUsers, getUser, and createUser
 // get the models for user
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const {
   INVALID_DATA_ERROR,
@@ -9,7 +11,6 @@ const {
   CONFLICT_ERROR,
   UNAUTHORIZED_ERROR,
 } = require("../utils/errors");
-const bcrypt = require("bcryptjs");
 const { JWT_SECRET } = require("../utils/config");
 
 // GetUsers Request - returns all users
@@ -56,7 +57,7 @@ module.exports.createUser = (req, res) => {
     .then((hash) =>
       User.create({ name, avatar, email: req.body.email, password: hash })
     )
-    .then((user) => res.send({ name, avatar, email, _id: user._id })) //sends name/avatar/email,not password
+    .then((user) => res.send({ name, avatar, email, _id: user._id }))
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
