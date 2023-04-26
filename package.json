@@ -12,7 +12,9 @@
   "author": "nikita_patel",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoos": "^0.0.1-security",
     "mongoose": "^7.0.4",
     "validator": "^13.9.0"

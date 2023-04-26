@@ -15,12 +15,12 @@ mongoose
 app.use(express.json());
 
 // Add Middleware
-app.use((req, res, next) => {
-  req.user = {
-    _id: "643f18dd19131b26d4ffbf42", // paste the _id of the test user created in the previous step
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "643f18dd19131b26d4ffbf42", // paste the _id of the test user created in the previous step
+//   };
+//   next();
+// });
 
 app.use(routes);
 

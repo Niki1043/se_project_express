@@ -2,7 +2,11 @@
 // invalid data passed to methods
 const INVALID_DATA_ERROR = 400;
 
+const UNAUTHORIZED_ERROR = 401;
+
 const ID_NOT_FOUND = 404;
+
+const CONFLICT_ERROR = 409;
 
 const DEFAULT_ERROR = 500;
 
@@ -19,4 +23,6 @@ module.exports = {
   DEFAULT_ERROR,
   NO_DOCUMENTS_FOUND,
   NO_DATA_FOR_ID,
+  CONFLICT_ERROR,
+  UNAUTHORIZED_ERROR,
 };
