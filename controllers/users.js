@@ -11,7 +11,7 @@ const {
   CONFLICT_ERROR,
   UNAUTHORIZED_ERROR,
 } = require("../utils/errors");
-const { JWT_SECRET } = require("../utils/config");
+const JWT_SECRET = require("../utils/config");
 
 // GetUsers Request - returns all users
 module.exports.getUsers = (req, res) => {
@@ -54,9 +54,7 @@ module.exports.createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({ name, avatar, email: req.body.email, password: hash })
-    )
+    .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) => res.send({ name, avatar, email, _id: user._id }))
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
