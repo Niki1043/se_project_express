@@ -53,7 +53,7 @@ module.exports.deleteClothingItem = (req, res) => {
             "You do not have the appropriate permissions to delete this item",
         });
       }
-      return item.deleteOne().then((item) => res.send({ data: item }));
+      return item.deleteOne().then(() => res.send({ data: item }));
     })
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
