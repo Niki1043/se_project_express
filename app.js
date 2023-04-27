@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const routes = require("./routes");
 
 const { PORT = 3001 } = process.env;
@@ -13,6 +14,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.json());
+app.use(cors());
 
 // Add Middleware
 // app.use((req, res, next) => {

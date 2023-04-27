@@ -5,6 +5,7 @@ const {
   ID_NOT_FOUND,
   DEFAULT_ERROR,
   NO_DOCUMENTS_FOUND,
+  FORBIDDEN_ERROR,
 } = require("../utils/errors");
 
 // GET /items — returns all clothing items
@@ -40,11 +41,20 @@ module.exports.createClothingItem = (req, res) => {
 
 // DELETE /items/:itemId — deletes an item by _id
 module.exports.deleteClothingItem = (req, res) => {
+  const owner = req.user._id;
   Item.findByIdAndDelete(req.params.itemId)
     .orFail(() => {
       throw NO_DOCUMENTS_FOUND;
     })
-    .then((item) => res.send({ data: item }))
+    .then((item) => {
+      if (item.owner !== owner) {
+        return res.status(FORBIDDEN_ERROR).send({
+          message:
+            "You do not have the appropriate permissions to delete this item",
+        });
+      }
+      return item.deleteOne().then((item) => res.send({ data: item }));
+    })
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
