@@ -6,7 +6,7 @@ const { login, createUser } = require("../controllers/users");
 const auth = require("../middlewares/auth");
 
 router.use("/users", auth, user);
-router.use("/items", clothingItem);
+router.use("/items", auth, clothingItem);
 
 router.post("/signin", login);
 router.post("/signup", createUser);
