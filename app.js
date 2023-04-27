@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const routes = require("./routes");
 
 const { PORT = 3001 } = process.env;
@@ -13,6 +14,7 @@ mongoose
   .then(() => console.log("Connected"))
   .catch((err) => console.log(err));
 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
