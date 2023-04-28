@@ -13,6 +13,7 @@ module.exports.getClothingItems = (req, res) => {
   Item.find({})
     .then((items) => res.send(items))
     .catch(() => {
+      console.error(err);
       res
         .status(DEFAULT_ERROR)
         .send({ message: "An error has occurred on the server" });
@@ -27,6 +28,7 @@ module.exports.createClothingItem = (req, res) => {
   Item.create({ name, weather, imageUrl, owner })
     .then((item) => res.send({ data: item }))
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)
@@ -56,6 +58,7 @@ module.exports.deleteClothingItem = (req, res) => {
       return item.deleteOne().then(() => res.send({ data: item }));
     })
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)
@@ -82,6 +85,7 @@ module.exports.likeClothingItem = (req, res) => {
     .orFail()
     .then((item) => res.send({ data: item }))
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)
@@ -108,6 +112,7 @@ module.exports.dislikeClothingItem = (req, res) => {
     .orFail()
     .then((item) => res.send({ data: item }))
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)

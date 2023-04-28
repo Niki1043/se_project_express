@@ -85,6 +85,7 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
+      console.error(err);
       res.status(UNAUTHORIZED_ERROR).send({ message: err.message });
     });
 };
@@ -96,6 +97,7 @@ module.exports.getCurrentUser = (req, res) => {
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)
@@ -118,6 +120,7 @@ module.exports.updateProfile = (req, res) => {
     .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
         res
           .status(INVALID_DATA_ERROR)
