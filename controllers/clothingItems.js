@@ -13,7 +13,6 @@ module.exports.getClothingItems = (req, res) => {
   Item.find({})
     .then((items) => res.send(items))
     .catch(() => {
-      console.error(err);
       res
         .status(DEFAULT_ERROR)
         .send({ message: "An error has occurred on the server" });
