@@ -26,7 +26,7 @@ module.exports.getUsers = (req, res) => {
 
 // GetUser Request - returns user by _id
 module.exports.getUser = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.user._id)
     .orFail(() => {
       throw NO_DOCUMENTS_FOUND;
     })
@@ -91,7 +91,7 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.user._id)
     .orFail(() => {
       throw NO_DOCUMENTS_FOUND;
     })
