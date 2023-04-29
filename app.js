@@ -2,7 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const routes = require("./routes");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15mins
+  max: 100, // Limit each IP to 100 requests per 15min window
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
 const { PORT = 3001 } = process.env;
 
@@ -18,13 +27,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-// Add Middleware
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "643f18dd19131b26d4ffbf42", // paste the _id of the test user created in the previous step
-//   };
-//   next();
-// });
+app.use(limiter);
+app.use(helmet());
 
 app.use(routes);
 

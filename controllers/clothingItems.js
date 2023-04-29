@@ -43,7 +43,7 @@ module.exports.createClothingItem = (req, res) => {
 // DELETE /items/:itemId — deletes an item by _id
 module.exports.deleteClothingItem = (req, res) => {
   const owner = req.user._id;
-  Item.findByIdAndDelete(req.params.itemId)
+  Item.findById(req.params.itemId)
     .orFail(() => {
       throw NO_DOCUMENTS_FOUND;
     })

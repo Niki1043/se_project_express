@@ -116,7 +116,11 @@ module.exports.getCurrentUser = (req, res) => {
 
 module.exports.updateProfile = (req, res) => {
   const { name, avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, avatar }, { new: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { new: true, runValidators: true }
+  )
     .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
