@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const routes = require("./routes");
+const errorHandler = require("./middlewares/error-handler");
+const { errors } = require("celebrate");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15mins
@@ -30,7 +33,19 @@ app.use(cors());
 app.use(limiter);
 app.use(helmet());
 
+// enable request logger
+app.use(requestLogger);
+
 app.use(routes);
+
+//enable error logger
+app.use(errorLogger);
+
+// celebrate error handler
+app.use(errors());
+
+// centralized error handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);

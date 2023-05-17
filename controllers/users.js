@@ -3,54 +3,33 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const {
-  INVALID_DATA_ERROR,
-  ID_NOT_FOUND,
-  DEFAULT_ERROR,
-  NO_DOCUMENTS_FOUND,
-  CONFLICT_ERROR,
-  UNAUTHORIZED_ERROR,
-} = require("../utils/errors");
+
+const BadRequestError = require("../errors/BadRequestError"); //Code400
+const ConflictError = require("../errors/ConflictError"); //Code409
+const NotFoundError = require("../errors/NotFoundError"); //Code404
+
 const JWT_SECRET = require("../utils/config");
 
 // GetUsers Request - returns all users
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(() => {
-      res
-        .status(DEFAULT_ERROR)
-        .send({ message: "An error has occurred on the server" });
-    });
+    .catch(next);
 };
 
 // GetUser Request - returns user by _id
-module.exports.getUser = (req, res) => {
+module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw NO_DOCUMENTS_FOUND;
+      throw new NotFoundError("User ID provided does not exist");
     })
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === "ValidationError" || err.name === "CastError") {
-        res
-          .status(INVALID_DATA_ERROR)
-          .send({ message: "The id provided is invalid" });
-      } else if (err.name === "NotFoundError") {
-        res
-          .status(ID_NOT_FOUND)
-          .send({ message: "The id provided was not found" });
-      } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
-      }
-    });
+    .catch(next);
 };
 
 // Post CreateUser Request - creates new user
-module.exports.createUser = (req, res) => {
-  console.log(req.body);
+module.exports.createUser = (req, res, next) => {
+  //console.log(req.body);
   const { name, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -58,24 +37,19 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ name, avatar, email, _id: user._id }))
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
-        res
-          .status(INVALID_DATA_ERROR)
-          .send({ message: "The data provided is invalid" });
+        next(new BadRequestError("The data provided is invalid"));
       } else if (err.code === 11000) {
-        res
-          .status(CONFLICT_ERROR)
-          .send({ message: "A user with this email already exists" });
+        next(new ConflictError("A user with this email already exists"));
       } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
+        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 // login controller to create - get email and password and authenticate items
 // findByCredentials()custommethod from classes
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -84,59 +58,35 @@ module.exports.login = (req, res) => {
       });
       res.send({ token });
     })
-    .catch((err) => {
-      console.error(err);
-      res.status(UNAUTHORIZED_ERROR).send({ message: err.message });
-    });
+    .catch(next);
 };
 
-module.exports.getCurrentUser = (req, res) => {
+module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw NO_DOCUMENTS_FOUND;
+      throw new NotFoundError("User ID provided does not exist");
     })
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "ValidationError" || err.name === "CastError") {
-        res
-          .status(INVALID_DATA_ERROR)
-          .send({ message: "The id provided is invalid" });
-      } else if (err.name === "NotFoundError") {
-        res
-          .status(ID_NOT_FOUND)
-          .send({ message: "The id provided was not found" });
-      } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
-      }
-    });
+    .catch(next);
 };
 
-module.exports.updateProfile = (req, res) => {
+module.exports.updateProfile = (req, res, next) => {
   const { name, avatar } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
     { name, avatar },
     { new: true, runValidators: true }
   )
-    .orFail()
+    .orFail(() => {
+      throw new NotFoundError("User ID provided does not exist");
+    })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      console.error(err);
+      // console.error(err);
       if (err.name === "ValidationError" || err.name === "CastError") {
-        res
-          .status(INVALID_DATA_ERROR)
-          .send({ message: "The id provided is invalid" });
-      } else if (err.name === "DocumentNotFoundError") {
-        res
-          .status(ID_NOT_FOUND)
-          .send({ message: "The id provided was not found" });
+        next(new BadRequestError("The data provided is invalid"));
       } else {
-        res
-          .status(DEFAULT_ERROR)
-          .send({ message: "An error has occurred on the server" });
+        next(err);
       }
     });
 };
