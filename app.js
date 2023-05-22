@@ -37,6 +37,13 @@ app.use(helmet());
 // enable request logger
 app.use(requestLogger);
 
+// Test code for reviewer process
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
+
 app.use(routes);
 
 //enable error logger
