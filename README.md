@@ -20,9 +20,9 @@ The project is now integrated with the a front end React application enabling ne
 
 ## Project Domains
 
-Main Website Domains: [www. Website](www.wtwrniki.mooo.com) and [Website](wtwrniki.mooo.com)
+Main Website Domains: [www. Website](https://www.wtwrniki.mooo.com/) and [Website](https://wtwrniki.mooo.com/)
 
-Website Backend: [Website Backend](api.wtwrniki.mooo.com)
+Website Backend: [Website Backend](https://api.wtwrniki.mooo.com/)
 
 ## Project Repositories
 
