@@ -8,7 +8,7 @@ const BadRequestError = require("../errors/BadRequestError"); //Code400
 const ConflictError = require("../errors/ConflictError"); //Code409
 const NotFoundError = require("../errors/NotFoundError"); //Code404
 
-const JWT_SECRET = require("../utils/config");
+const config = require("../utils/config");
 
 // GetUsers Request - returns all users
 module.exports.getUsers = (req, res, next) => {
@@ -53,7 +53,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+      const token = jwt.sign({ _id: user._id }, config.JWT_SECRET, {
         expiresIn: "7d",
       });
       res.send({ token });
