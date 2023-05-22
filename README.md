@@ -8,8 +8,24 @@ This project is setup in Express. A MongoDB database is setup and connected to t
 
 The techonologies used include Express.js, Node.js, MongoDB and Postman.
 
+## Creating a Full Stack Project
+
+The project is now integrated with the a front end React application enabling new users to sign up and once logged in, add and delete their own cards, and like any card.
+
 ## Running the Project
 
 `npm run start` — to launch the server
 
 `npm run dev` — to launch the server with the hot reload feature
+
+## Project Domains
+
+Main Website Domains: [www. Website](www.wtwrniki.mooo.com) and [Website](wtwrniki.mooo.com)
+
+Website Backend: [Website Backend](api.wtwrniki.mooo.com)
+
+## Project Repositories
+
+[Frontend React](https://github.com/Niki1043/se_project_react)
+
+[Backend Express](https://github.com/Niki1043/se_project_express)
