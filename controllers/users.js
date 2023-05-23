@@ -4,9 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const BadRequestError = require("../errors/BadRequestError"); //Code400
-const ConflictError = require("../errors/ConflictError"); //Code409
-const NotFoundError = require("../errors/NotFoundError"); //Code404
+const BadRequestError = require("../errors/BadRequestError"); // Code400
+const ConflictError = require("../errors/ConflictError"); // Code409
+const NotFoundError = require("../errors/NotFoundError"); // Code404
 
 const JWT_SECRET = require("../utils/config");
 
@@ -29,7 +29,7 @@ module.exports.getUser = (req, res, next) => {
 
 // Post CreateUser Request - creates new user
 module.exports.createUser = (req, res, next) => {
-  //console.log(req.body);
+  // console.log(req.body);
   const { name, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)

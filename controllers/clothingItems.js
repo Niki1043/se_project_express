@@ -38,7 +38,7 @@ module.exports.deleteClothingItem = (req, res, next) => {
     })
     .then((item) => {
       if (String(item.owner) !== owner) {
-        next(
+        return next(
           new ForbiddenError(
             "You do not have the appropriate permissions to delete this item"
           )

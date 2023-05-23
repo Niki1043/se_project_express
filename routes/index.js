@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const user = require("./users");
 const clothingItem = require("./clothingItems");
-const NotFoundError = require("../errors/NotFoundError"); //Code404
+const NotFoundError = require("../errors/NotFoundError"); // Code404
 // const { ID_NOT_FOUND } = require("../utils/errors");
 const { login, createUser } = require("../controllers/users");
 const auth = require("../middlewares/auth");
