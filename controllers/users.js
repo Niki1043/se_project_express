@@ -2,13 +2,15 @@
 // get the models for user
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const { JWT_SECRET = "dev-secret" } = process.env;
 const User = require("../models/user");
 
 const BadRequestError = require("../errors/BadRequestError"); // Code400
 const ConflictError = require("../errors/ConflictError"); // Code409
 const NotFoundError = require("../errors/NotFoundError"); // Code404
 
-const JWT_SECRET = require("../utils/config");
+// const JWT_SECRET = require("../utils/config");
 
 // GetUsers Request - returns all users
 module.exports.getUsers = (req, res, next) => {
