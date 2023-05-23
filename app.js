@@ -31,11 +31,14 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-app.use(limiter);
+// app.use(limiter);
 app.use(helmet());
 
 // enable request logger
 app.use(requestLogger);
+
+// to log limiter denied requests
+app.use(limiter);
 
 // Test code for reviewer process
 app.get("/crash-test", () => {
