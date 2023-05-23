@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { JWT_SECRET = "dev-secret" } = process.env;
-console.log(process.env);
 const User = require("../models/user");
 
 const BadRequestError = require("../errors/BadRequestError"); // Code400
