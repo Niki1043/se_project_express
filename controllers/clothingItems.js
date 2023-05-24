@@ -1,9 +1,9 @@
 // get the models for clothingitems
 const Item = require("../models/clothingItem");
 
-const BadRequestError = require("../errors/BadRequestError"); //Code400
-const NotFoundError = require("../errors/NotFoundError"); //Code404
-const ForbiddenError = require("../errors/ForbiddenError"); //Code403
+const BadRequestError = require("../errors/BadRequestError"); // Code400
+const NotFoundError = require("../errors/NotFoundError"); // Code404
+const ForbiddenError = require("../errors/ForbiddenError"); // Code403
 
 // GET /items — returns all clothing items
 module.exports.getClothingItems = (req, res, next) => {
@@ -16,7 +16,7 @@ module.exports.getClothingItems = (req, res, next) => {
 module.exports.createClothingItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
   const owner = req.user._id;
-  //console.log(owner);
+  // console.log(owner);
   Item.create({ name, weather, imageUrl, owner })
     .then((item) => res.send({ data: item }))
     .catch((err) => {

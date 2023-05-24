@@ -5,9 +5,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const { errors } = require("celebrate");
 const routes = require("./routes");
 const errorHandler = require("./middlewares/error-handler");
-const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const limiter = rateLimit({
@@ -49,7 +49,7 @@ app.get("/crash-test", () => {
 
 app.use(routes);
 
-//enable error logger
+// enable error logger
 app.use(errorLogger);
 
 // celebrate error handler
